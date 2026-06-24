@@ -1,18 +1,35 @@
 vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin" .. ":" .. vim.env.PATH
 
-local function start_lsp(server_name, filetypes, cmd)
+local function start(server_name, filetypes, cmd)
   vim.api.nvim_create_autocmd("FileType", {
     pattern = filetypes,
     callback = function(args)
+      local library_paths = {
+        vim.fn.expand("$VIMRUNTIME/lua"),
+        vim.fn.stdpath("data") .. "/lazy/snacks/lua.nvim",
+      }
+      vim.list_extend(library_paths, vim.api.nvim_get_runtime_file("", true))
+
       vim.lsp.start({
         name = server_name,
         cmd = cmd,
         root_dir = vim.fs.root(args.buf, { ".git", "Cargo.toml", "compile_commands.json", "init.lua" }),
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim", "Snacks" },
+            },
+            workspace = {
+              library = library_paths,
+              checkThirdParty = false,
+            },
+          },
+        },
       })
     end,
   })
 end
 
-start_lsp("lua-language-server", { "lua" }, { "lua-language-server" })
-start_lsp("clangd", { "c", "cpp", "objc", "objcpp" }, { "clangd" })
-start_lsp("rust-analyzer", { "rust" }, { "rust-analyzer" })
+start("lua-language-server", { "lua" }, { "lua-language-server" })
+start("clangd", { "c", "cpp", "objc", "objcpp" }, { "clangd" })
+start("rust-analyzer", { "rust" }, { "rust-analyzer" })
