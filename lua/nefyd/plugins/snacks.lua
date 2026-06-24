@@ -13,7 +13,7 @@ return {
 
   keys = {
     -- general finders --
-    { "<leader><space>", function() Snacks.picker.smart() end, desc = "adaptive find" },
+    { "<leader><leader>", function() Snacks.picker.smart() end, desc = "adaptive find" },
     { "<leader>ff", function() Snacks.picker.files() end, desc = "find files" },
     { "<leader>fr", function() Snacks.picker.recent() end, desc = "find recent files" },
     { "<leader>fb", function() Snacks.picker.buffers() end, desc = "find buffers" },
@@ -26,7 +26,7 @@ return {
     { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "git branches" },
     { "<leader>gl", function() Snacks.picker.git_log() end, desc = "git log" },
     { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "git log current line)" },
-    { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status (diff picker)" },
+    { "<leader>gs", function() Snacks.picker.git_status() end, desc = "git status (diff picker)" },
     { "<leader>gB", function() Snacks.gitblame.toggle() end, desc = "toggle inline git blame" },
   },
 }
