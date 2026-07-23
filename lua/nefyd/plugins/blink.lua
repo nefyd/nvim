@@ -1,13 +1,15 @@
 return {
   "saghen/blink.cmp",
- 
+
   -- change when 2.x is stable --
   version = "1.*",
 
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
-    keymap = { preset = "super-tab" },
+    keymap = {
+      preset = "super-tab"
+    },
 
     appearance = {
       use_nvim_cmp_as_default = true,
@@ -19,14 +21,18 @@ return {
     },
 
     completion = {
-      documentation = { 
-        auto_show = true, 
-        auto_show_delay_ms = 200 
+      documentation = {
+        auto_show = true,
       },
       ghost_text = { enabled = true },
     },
 
-    signature = { enabled = true },
+    signature = {
+      enabled = true,
+      window = {
+        border = "rounded",
+      }
+    },
   },
   opts_extend = { "sources.default" },
 }

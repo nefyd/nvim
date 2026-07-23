@@ -26,6 +26,8 @@ local function start(server_name, filetypes, cmd)
           },
         },
       })
+      local opts = { buffer = args.buf, desc = "go to definition" }
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
     end,
   })
 end

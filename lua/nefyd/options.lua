@@ -20,7 +20,7 @@ vim.opt.hlsearch = false
 vim.opt.mouse = ""
 vim.opt.termguicolors = true
 
-vim.opt.clipboard = "unnamedplus"
+-- vim.opt.clipboard = "unnamedplus" this causes delay
 vim.g.clipboard = {
   name = 'win32yank-wsl',
   copy = {
