@@ -35,3 +35,8 @@ end
 start("lua-language-server", { "lua" }, { "lua-language-server" })
 start("clangd", { "c", "cpp", "objc", "objcpp" }, { "clangd" })
 start("rust-analyzer", { "rust" }, { "rust-analyzer" })
+
+vim.diagnostic.config({
+  virtual_text = false,
+  virtual_lines = { current_line = true },
+})

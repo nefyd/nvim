@@ -16,7 +16,12 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = false
 
+--- wrapping ---
+
+vim.opt.wrap = true
+
 --- system ---
+
 vim.opt.mouse = ""
 vim.opt.termguicolors = true
 
