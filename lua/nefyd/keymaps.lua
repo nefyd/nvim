@@ -53,4 +53,4 @@ end, { desc = "signature docs" })
 map("n", "<leader>YY", "<cmd>%y+<CR>", { desc = "yank all" })
 map("n", "<leader>nf", "<cmd>enew<CR>", { desc = "new file" })
 map("i", "<C-z>", "<C-o>:normal! zz<CR>", { desc = "center screen" })
-
+map("n", "<leader>DD", "<cmd>%d<CR>", { desc = "delete all" })

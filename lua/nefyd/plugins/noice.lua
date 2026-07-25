@@ -10,9 +10,16 @@ return {
         view = "cmdline_popup",
       },
       lsp = {
-        progress = {
+        enabled = false,
+        signature = {
           enabled = false,
-        },
+        }
+      },
+      popupmenu = {
+        enabled = false,
+      },
+      notify = {
+        enabled = false,
       },
       messages = {
         enabled = true,
