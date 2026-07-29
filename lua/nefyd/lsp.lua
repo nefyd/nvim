@@ -59,8 +59,3 @@ local ty_capabilities = vim.lsp.protocol.make_client_capabilities()
 ty_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
 
 start("ty", { "python" }, { "ty", "server" }, nil, ty_capabilities)
-
-vim.diagnostic.config({
-  virtual_text = false,
-  virtual_lines = { current_line = true },
-})
