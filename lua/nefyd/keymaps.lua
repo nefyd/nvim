@@ -47,6 +47,7 @@ map('i', '<C-k>', function()
     border = "rounded",
   })
 end, { desc = "signature docs" })
+map("n", "<leader>F", vim.lsp.buf.format)
 
 --- editing shortcuts ---
 

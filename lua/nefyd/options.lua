@@ -25,16 +25,18 @@ vim.opt.wrap = true
 vim.opt.mouse = ""
 vim.opt.termguicolors = true
 
--- vim.opt.clipboard = "unnamedplus" this causes delay
+--- clipboard ---
+
+vim.opt.clipboard = "unnamedplus"
+
 vim.g.clipboard = {
-  name = 'win32yank-wsl',
+  name = 'OSC 52',
   copy = {
-     ['+'] = 'win32yank.exe -i --crlf',
-     ['*'] = 'win32yank.exe -i --crlf',
-   },
-  paste = {
-     ['+'] = 'win32yank.exe -o --lf',
-     ['*'] = 'win32yank.exe -o --lf',
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
   },
-  cache_enabled = 0,
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+  },
 }
