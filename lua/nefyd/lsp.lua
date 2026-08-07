@@ -9,24 +9,33 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-local function start(server_name, filetypes, cmd, settings, capabilities, root_markers)
+local ROOT_MARKERS = {
+  default = { ".git" },
+  c_cpp = { "compile_commands.json", ".git" },
+  rust = { "Cargo.toml", ".git" },
+  python = { "pyproject.toml", "ruff.toml", "requirements.txt", ".git" },
+  lua = { "init.lua", ".git" },
+  glsl = { ".git" },
+  haskell = {
+    "stack.yaml",
+    "cabal.project",
+    "hie.yaml",
+    ".git",
+    function(name) return name:match("%.cabal$") ~= nil end,
+  },
+}
+
+local function start(server_name, filetypes, cmd, opts)
+  opts = opts or {}
   vim.api.nvim_create_autocmd("FileType", {
     pattern = filetypes,
     callback = function(args)
       vim.lsp.start({
         name = server_name,
         cmd = cmd,
-        root_dir = vim.fs.root(args.buf, root_markers or {
-          "pyproject.toml",
-          "ruff.toml",
-          "requirements.txt",
-          ".git",
-          "Cargo.toml",
-          "compile_commands.json",
-          "init.lua"
-        }),
-        settings = settings,
-        capabilities = capabilities,
+        root_dir = vim.fs.root(args.buf, opts.root_markers or ROOT_MARKERS.default),
+        settings = opts.settings,
+        capabilities = opts.capabilities,
       })
     end,
   })
@@ -38,7 +47,7 @@ local lua_library_paths = {
 }
 vim.list_extend(lua_library_paths, vim.api.nvim_get_runtime_file("", true))
 
-start("lua-language-server", { "lua" }, { "lua-language-server" }, {
+local lua_settings = {
   Lua = {
     diagnostics = {
       globals = { "vim", "Snacks" },
@@ -48,21 +57,56 @@ start("lua-language-server", { "lua" }, { "lua-language-server" }, {
       checkThirdParty = false,
     },
   },
-})
-
-start("clangd", { "c", "cpp", "objc", "objcpp" }, { "clangd" })
-start("rust-analyzer", { "rust" }, { "rust-analyzer" })
-start("ruff", { "python" }, { "ruff", "server" })
-start("glsl_analyzer", { "glsl", "vert", "frag", "geom" }, { "glsl_analyzer" })
+}
 
 local ty_capabilities = vim.lsp.protocol.make_client_capabilities()
 ty_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
 
-start("ty", { "python" }, { "ty", "server" }, nil, ty_capabilities)
-start("haskell-language-server", { "haskell" }, { "haskell-language-server-wrapper", "--lsp" }, nil, nil, {
-  "stack.yaml",
-  "cabal.project",
-  "hie.yaml",
-  ".git",
-  function(name) return name:match("%.cabal$") ~= nil end,
-})
+local SERVERS = {
+  {
+    name = "lua-language-server",
+    filetypes = { "lua" },
+    cmd = { "lua-language-server" },
+    opts = { settings = lua_settings, root_markers = ROOT_MARKERS.lua },
+  },
+  {
+    name = "clangd",
+    filetypes = { "c", "cpp", "objc", "objcpp" },
+    cmd = { "clangd" },
+    opts = { root_markers = ROOT_MARKERS.c_cpp },
+  },
+  {
+    name = "rust-analyzer",
+    filetypes = { "rust" },
+    cmd = { "rust-analyzer" },
+    opts = { root_markers = ROOT_MARKERS.rust },
+  },
+  {
+    name = "ruff",
+    filetypes = { "python" },
+    cmd = { "ruff", "server" },
+    opts = { root_markers = ROOT_MARKERS.python },
+  },
+  {
+    name = "glsl_analyzer",
+    filetypes = { "glsl", "vert", "frag", "geom" },
+    cmd = { "glsl_analyzer" },
+    opts = { root_markers = ROOT_MARKERS.glsl },
+  },
+  {
+    name = "ty",
+    filetypes = { "python" },
+    cmd = { "ty", "server" },
+    opts = { capabilities = ty_capabilities, root_markers = ROOT_MARKERS.python },
+  },
+  {
+    name = "haskell-language-server",
+    filetypes = { "haskell" },
+    cmd = { "haskell-language-server-wrapper", "--lsp" },
+    opts = { root_markers = ROOT_MARKERS.haskell },
+  },
+}
+
+for _, server in ipairs(SERVERS) do
+  start(server.name, server.filetypes, server.cmd, server.opts)
+end
