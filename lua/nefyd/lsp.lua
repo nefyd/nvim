@@ -9,14 +9,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-local function start(server_name, filetypes, cmd, settings, capabilities)
+local function start(server_name, filetypes, cmd, settings, capabilities, root_markers)
   vim.api.nvim_create_autocmd("FileType", {
     pattern = filetypes,
     callback = function(args)
       vim.lsp.start({
         name = server_name,
         cmd = cmd,
-        root_dir = vim.fs.root(args.buf, {
+        root_dir = vim.fs.root(args.buf, root_markers or {
           "pyproject.toml",
           "ruff.toml",
           "requirements.txt",
@@ -59,3 +59,10 @@ local ty_capabilities = vim.lsp.protocol.make_client_capabilities()
 ty_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
 
 start("ty", { "python" }, { "ty", "server" }, nil, ty_capabilities)
+start("haskell-language-server", { "haskell" }, { "haskell-language-server-wrapper", "--lsp" }, nil, nil, {
+  "stack.yaml",
+  "cabal.project",
+  "hie.yaml",
+  ".git",
+  function(name) return name:match("%.cabal$") ~= nil end,
+})
