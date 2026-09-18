@@ -9,26 +9,20 @@ file tree: oil.nvim
 
 lsp manager: mason
 
-lsp translator: (nvim native)
-
-git integration: snacks.git
+lsp configurations: nvim-lspconfig
 
 # quality of life plugins
-keymap guide: which-key.nvim
 
 statusline: lualine
-
-quick comment: (nvim native [gcc])
 
 autopair: nvim-autopairs
 
 command line: noice.nvim
 
-terminal toggle: toggleterm.nvim
+terminal: toggleterm.nvim
 
 # cosmetic plugins
-colorscheme: koda
 
-gutter style: snacks.styles
+colorscheme: koda
 
 cursor: smear-cursor.nvim
