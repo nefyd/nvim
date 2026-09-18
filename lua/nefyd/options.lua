@@ -1,29 +1,30 @@
---- line numbers ---
+-- ui
 
 vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.termguicolors = true
+vim.opt.updatetime = 250
 
---- indentation ---
+-- indentation
 
 vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
---- searching ---
+-- search
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.hlsearch = false
 
---- wrapping ---
+-- wrapping
 
-vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.breakindent = true
 
---- system ---
-
-vim.opt.mouse = ""
-vim.opt.termguicolors = true
-
---- clipboard ---
+-- clipboard
 
 vim.opt.clipboard = "unnamedplus"
+
+-- persistence
+
+vim.opt.undofile = true

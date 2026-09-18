@@ -1,32 +1,79 @@
 return {
-  "folke/snacks.nvim",
-  priority = 1000,
-  lazy = false,
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
 
-  ---@type snacks.Config
-  opts = {
-    picker = { enabled = true },
-    git = { enabled = true },
-    gitblame = { enabled = true },
-    statuscolumn = { enabled = true },
-  },
+    ---@type snacks.Config
+    opts = {
+        -- Enabled features
+        picker = { enabled = true },
+        statuscolumn = { enabled = true },
+        quickfile = { enabled = true },
+        bigfile = { enabled = true },
+        indent = { enabled = true },
+        scope = { enabled = true },
 
-  keys = {
-    -- general finders --
-    { "<leader><leader>", function() Snacks.picker.smart() end, desc = "adaptive find" },
-    { "<leader>ff", function() Snacks.picker.files() end, desc = "find files" },
-    { "<leader>fr", function() Snacks.picker.recent() end, desc = "find recent files" },
-    { "<leader>fb", function() Snacks.picker.buffers() end, desc = "find buffers" },
+        -- Disabled features
+        bufdelete = { enabled = false },
+        dashboard = { enabled = false },
+        dim = { enabled = false },
+        explorer = { enabled = false },
+        gh = { enabled = false },
+        git = { enabled = false },
+        gitbrowse = { enabled = false },
+        image = { enabled = false },
+        input = { enabled = false },
+        lazygit = { enabled = false },
+        notifier = { enabled = false },
+        profiler = { enabled = false },
+        rename = { enabled = false },
+        scratch = { enabled = false },
+        scroll = { enabled = false },
+        terminal = { enabled = false },
+        toggle = { enabled = false },
+        words = { enabled = false },
+        zen = { enabled = false },
+    },
 
-    -- content finders --
-    { "<leader>fc", function() Snacks.picker.grep() end, desc = "find content" },
-    { "<leader>fw", function() Snacks.picker.grep_word() end, desc = "find word under cursor", mode = { "n", "x" } },
+    config = function(_, opts)
+        local notify = vim.notify
+        require("snacks").setup(opts)
+        -- Restore vim.notify so noice.nvim can take over the cmdline UI
+        vim.notify = notify
+    end,
 
-    -- git integration --
-    { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "git branches" },
-    { "<leader>gl", function() Snacks.picker.git_log() end, desc = "git log" },
-    { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "git log current line)" },
-    { "<leader>gs", function() Snacks.picker.git_status() end, desc = "git status (diff picker)" },
-    { "<leader>gB", function() Snacks.gitblame.toggle() end, desc = "toggle inline git blame" },
-  },
+    keys = {
+        -- general finders --
+        {
+            "<leader><leader>",
+            function()
+                Snacks.picker.smart()
+            end,
+            desc = "adaptive find"
+        },
+        {
+            "<leader>ff",
+            function()
+                Snacks.picker.files()
+            end,
+            desc = "find files"
+        },
+
+        -- content finders --
+        {
+            "<leader>fc",
+            function()
+                Snacks.picker.grep()
+            end,
+            desc = "find content"
+        },
+        {
+            "<leader>fw",
+            function()
+                Snacks.picker.grep_word()
+            end,
+            desc = "find word under cursor",
+            mode = { "n", "x" }
+        },
+    },
 }

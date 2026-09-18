@@ -1,52 +1,39 @@
 return {
-  "folke/noice.nvim",
-  event = "VeryLazy",
-  dependencies = {
-    "MunifTanjim/nui.nvim",
-  },
-  config = function()
-    require("noice").setup({
-      cmdline = {
-        view = "cmdline_popup",
-      },
-      lsp = {
-        enabled = false,
-        signature = {
-          enabled = false,
-        }
-      },
-      popupmenu = {
-        enabled = false,
-      },
-      notify = {
-        enabled = false,
-      },
-      messages = {
-        enabled = true,
-        view = "mini",
-      },
-      views = {
-        mini = {
-          timeout = 5000,
-          size = {
-            max_height = 5,
-          },
-          border = {
-            style = "rounded",
-            padding = { 0, 1 },
-          },
-          position = {
-            row = -2,
-            col = "100%",
-          },
-          win_options = {
-            winhighlight = {
-              Normal = "NormalFloat",
-              FloatBorder = "FloatBorder",
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+        "MunifTanjim/nui.nvim",
+        {
+            "rcarriga/nvim-notify",
+            opts = {
+                timeout = 500,
+                render = "wrapped-compact",
+                max_width = 60,
+                minimum_width = 0,
             },
-          },
         },
-      },
-    })
-  end,
+    },
+    opts = {
+        messages = {
+            enabled = true,
+            view = "notify",
+        },
+        lsp = {
+            override = {
+                ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                ["vim.lsp.util.stylize_markdown"] = true,
+            },
+        },
+        presets = {
+            long_message_to_split = true,
+            lsp_doc_border = false,
+        },
+        cmdline = {
+            enabled = true,
+            view = "cmdline_popup",
+        },
+    },
+    config = function(_, opts)
+        require("noice").setup(opts)
+    end,
 }
