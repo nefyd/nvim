@@ -8,15 +8,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-    -- fix auto indent for C files
-    pattern = "c",
-    callback = function()
-        vim.bo.indentexpr = ""
-        vim.bo.cindent = true
-    end,
-})
-
 vim.api.nvim_create_autocmd("LspAttach", {
     -- map 'gd' in normal mode to "go to definition" on LspAttach
     callback = function(args)

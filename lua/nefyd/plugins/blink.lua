@@ -33,6 +33,10 @@ return {
         border = "rounded",
       }
     },
+
+    fuzzy = {
+      sorts = { "score", "sort_text" },
+    },
   },
   opts_extend = { "sources.default" },
 }

@@ -6,7 +6,7 @@ return {
             settings = {
                 Lua = {
                     diagnostics = {
-                        globals = { "vim" },
+                        globals = { "vim", "Snacks" },
                     },
                     workspace = {
                         checkThirdParty = false,
@@ -15,19 +15,15 @@ return {
             },
         })
 
-        vim.lsp.config("clangd", {
-            cmd = {
-                "clangd",
-                "--function-arg-placeholders=0",
-                "--enable-config",
-            },
-        })
-
         vim.lsp.enable({
             "lua_ls",
             "clangd",
             "rust_analyzer",
             "ruff",
+            "ts_ls",
+            "html",
+            "cssls",
+            "biome",
         })
     end,
 }
